@@ -68,6 +68,10 @@ body {
   min-height: 100vh;
   -webkit-font-smoothing: antialiased;
 }
+/* Respect HTML hidden attribute */
+[hidden] {
+    display: none !important;
+}
 ::selection { background: color-mix(in srgb, var(--primary) 33%, transparent); }
 table { border-collapse: collapse; width: 100%; }
 button { font: inherit; cursor: pointer; }
