@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Chronos — Time Tracking</title>
+<link rel="stylesheet" href="style.css" />
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+</head>
+<body>
+
+<!-- Shown briefly while the current Supabase session is being resolved,
+     so neither the login screen nor the app flashes before we know which
+     one is correct. -->
+<div class="boot-screen" id="bootScreen">
+  <div class="boot-spinner"></div>
+</div>
+
+<!-- Always the entry point for unauthenticated visitors. -->
+<div class="auth-screen" id="authScreen" hidden>
+  <div class="auth-card card">
+    <div class="auth-brand">
+      <div class="brand-mark"><i data-lucide="zap"></i></div>
+      <span class="brand-name">Chronos</span>
+    </div>
+    <h1 class="auth-title">Sign in</h1>
+    <p class="auth-subtitle">Use your work email and password to continue.</p>
+
+    <form id="loginForm" class="auth-form" novalidate>
+      <div class="auth-field">
+        <label class="field-label" for="loginEmail">Email</label>
+        <input
+          class="auth-input"
+          id="loginEmail"
+          name="email"
+          type="email"
+          autocomplete="email"
+          placeholder="you@company.com"
+          required
+        />
+      </div>
+      <div class="auth-field">
+        <label class="field-label" for="loginPassword">Password</label>
+        <input
+          class="auth-input"
+          id="loginPassword"
+          name="password"
+          type="password"
+          autocomplete="current-password"
+          placeholder="••••••••"
+          required
+        />
+      </div>
+
+      <p class="auth-error" id="loginError" role="alert" hidden></p>
+
+      <button type="submit" class="btn btn-primary auth-submit" id="loginSubmitBtn">
+        Sign in
+      </button>
+    </form>
+  </div>
+</div>
+
+<div class="app-shell" id="appShell" hidden>
+
+  <div class="sidebar-scrim" id="sidebarScrim"></div>
+
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+      <div class="sidebar-brand">
+        <div class="brand-mark"><i data-lucide="zap"></i></div>
+        <span class="brand-name">Chronos</span>
+      </div>
+      <button class="icon-btn sidebar-close" id="sidebarCloseBtn" aria-label="Close menu">
+        <i data-lucide="x"></i>
+      </button>
+    </div>
+
+    <nav class="sidebar-nav" id="sidebarNav" aria-label="Primary"></nav>
+
+    <div class="sidebar-footer">
+      <div class="user-card">
+        <div class="avatar avatar-primary" id="accountAvatar" style="width:34px;height:34px;font-size:12.2px;background:var(--primary-soft);color:var(--primary)"></div>
+        <div class="user-card-info">
+          <p class="user-card-name" id="accountName">—</p>
+          <p class="user-card-role" id="accountRole">Member</p>
+        </div>
+        <button class="user-card-logout-btn" id="logoutBtn" type="button" aria-label="Sign out">
+          <i data-lucide="log-out" class="user-card-logout"></i>
+        </button>
+      </div>
+    </div>
+  </aside>
+
+  <div class="main-col">
+    <header class="topbar">
+      <div class="topbar-left">
+        <button class="icon-btn sidebar-open" id="sidebarOpenBtn" aria-label="Open menu">
+          <i data-lucide="menu"></i>
+        </button>
+        <h1 class="topbar-title" id="pageTitle">Dashboard</h1>
+      </div>
+
+      <div class="topbar-right">
+        <button class="search-btn" aria-label="Search">
+          <i data-lucide="search"></i>
+          <span>Search</span>
+          <span class="kbd"><i data-lucide="command"></i>K</span>
+        </button>
+
+        <div class="notif-wrap">
+          <button class="icon-btn notif-btn" id="notifBtn" aria-label="Notifications" aria-haspopup="true" aria-expanded="false">
+            <i data-lucide="bell"></i>
+            <span class="notif-dot"></span>
+          </button>
+          <div class="notif-dropdown" id="notifDropdown" hidden>
+            <p class="notif-heading">NOTIFICATIONS</p>
+            <div id="notifList"></div>
+          </div>
+        </div>
+
+        <button class="icon-btn theme-toggle" id="themeToggle" aria-label="Toggle theme">
+          <i data-lucide="sun" id="themeIconSun"></i>
+          <i data-lucide="moon" id="themeIconMoon"></i>
+        </button>
+      </div>
+    </header>
+
+    <main class="main-content" id="mainContent">
+
+      <section id="view-dashboard" class="view is-active" data-title="Dashboard"></section>
+      <section id="view-time" class="view" data-title="Time Tracking"></section>
+      <section id="view-schedule" class="view" data-title="Schedule"></section>
+      <section id="view-attendance" class="view" data-title="Attendance"></section>
+      <section id="view-leave" class="view" data-title="Leave"></section>
+      <section id="view-team" class="view" data-title="Team"></section>
+      <section id="view-reports" class="view" data-title="Reports & Analytics"></section>
+      <section id="view-settings" class="view" data-title="Settings"></section>
+
+    </main>
+  </div>
+</div>
+
+<script src="auth.js"></script>
+<script src="profileService.js"></script>
+<script src="roles.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
